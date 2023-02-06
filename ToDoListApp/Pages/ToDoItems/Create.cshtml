@@ -1,0 +1,43 @@
+﻿@page
+@model ToDoListApp.Pages.ToDoItems.CreateModel
+@{
+    var errorMessage = ViewData["ErrorMessage"]?.ToString();
+}
+
+<h2 class="mb-3">Create Item</h2>
+
+<form method="post" class="align-content-center">
+    <div class="mb-3">
+        <label class="form-label">Name: </label>
+        <input type="text" class="form-control" placeholder="Name" asp-for="ToDoItemModel.Name" />
+        <span asp-validation-for="ToDoItemModel.Name" class="text-danger"></span>
+        @if (!string.IsNullOrWhiteSpace(errorMessage))
+        {
+            <span class="text-danger" role="alert">
+                @errorMessage
+            </span>
+        }
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Priority: </label>
+        <input type="number" class="form-control" placeholder="Priority" asp-for="ToDoItemModel.Priority" />
+        <span asp-validation-for="ToDoItemModel.Priority" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Status: </label>
+        <select class="form-control" asp-for="ToDoItemModel.Status">
+            <option selected="selected" value="0">Not Started</option>
+            <option value="1">In Progress</option>
+            <option value="2">Completed</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary" asp-page-handler="Save">Save</button>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    }

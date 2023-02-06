@@ -1,0 +1,61 @@
+﻿@page
+@model IndexModel
+@using Enums
+@{
+    ViewData["Title"] = "To Do List";
+    var successMessage = TempData["success"];
+}
+
+<div class="text-center">
+    <h1 class="display-4 mb-5">To Do Notebook</h1>
+    @if(successMessage != null)
+    {
+        <div class="alert alert-success" role="alert">@successMessage</div>
+    }
+    <div class="mb-5">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ToDoList != null && Model.ToDoList.Any())
+                {
+                    @foreach (var toDoItem in Model.ToDoList)
+                    {
+                        <tr>
+                            <td>@toDoItem.Name</td>
+                            <td>@toDoItem.Priority</td>
+                            <td>
+                                @toDoItem.Status.GetDisplayName()
+                            </td>
+                            <td>
+                                <a href="/ToDoItems/Edit/@toDoItem.Id" class="btn btn-secondary">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-secondary">No To Do Items found</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <form method="post" class="align-content-center">
+        <div class="row">
+            <div class="col">
+                <a href="/todoitems/create" class="align-content-center btn btn-primary">Add To Do Item</a>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-danger" asp-page-handler="Delete">Delete Completed Items</button>
+            </div>
+        </div>
+    </form>
+</div>
